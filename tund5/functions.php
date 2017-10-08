@@ -4,13 +4,13 @@
 	//alustame sessiooni
 	session_start();
 	
-	function signIn ($email, $password){
+	function signIn ($email, $password, $signupFirstName, $signupFamilyName){
 		$notice = "";
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		$stmt = $mysqli->prepare("SELECT id, email, password FROM vplogimine WHERE email = ?");
+		$stmt = $mysqli->prepare("SELECT id, email, password, firstname, lastname FROM vplogimine WHERE email = ?");
 		$stmt->bind_param("s", $email);
-		$stmt->bind_result($id, $emailFromDb, $passwordFromDb);
+		$stmt->bind_result($id, $emailFromDb, $passwordFromDb, $signupFirstNameFromDb, $signupFamilyNameFromDb);
 		$stmt->execute();
 		
 		//kui vähemalt üks tulemus
@@ -21,6 +21,8 @@
 				//määran sessiooni muutujaid
 				$_SESSION["userId"] = $id;
 				$_SESSION["userEmail"] = $emailFromDb;
+				$_SESSION["firstname"] = $signupFirstNameFromDb;
+				$_SESSION["lastname"] = $signupFamilyNameFromDb;
 				
 				//lähen pealehele
 				header("Location: main.php");
@@ -66,6 +68,13 @@ function test_input($data){
 		$data = htmlspecialchars ($data);
 		return $data;
 	}
+/*	//UUS FUNKTSIOON
+
+function show_name ($signupFirstName, $signupFamilyName){
+        if (isset($_SESSION["firstname,lastname"]))
+        echo "Tere", $_SESSION["firstname,lastname"];
+
+} */
 	
 	/*
 	$x = 7;

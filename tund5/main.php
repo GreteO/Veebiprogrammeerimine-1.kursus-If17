@@ -1,6 +1,7 @@
 <?php
 
 		require("functions.php");
+		require("../../../config.php");
 		//kui pole sisse logitud, liigume login lehele
 		if(!isset($_SESSION["userId"])){
 			header("Location: uus_login1.php");
@@ -13,13 +14,33 @@
 			header("Location: uus_login1.php");
 		}
 		
+					
 	//muutujad
-	$myName = "Grete";
-	$myFamilyName = "Ojavere";
+	$signupFirstNameFromDb = "";
+	$signupFamilyNameFromDb = "";
+	
+$database = "if17_ojavgret";   
+	
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		if ($stmt = $mysqli->prepare("SELECT firstname, lastname FROM vplogimine WHERE id=".$_SESSION["userId"])){
+            $stmt->execute();
+		    $stmt->bind_result($signupFirstNameFromDb, $signupFamilyNameFromDb);
+            while ($stmt -> fetch()){
+		        $signupFirstNameFromDb; 
+		        $signupFamilyNameFromDb;
+		        }
+		    
+		
+		    $stmt->close();
+        }
+		$mysqli->close();
+
 	
 	$picDir = "../../pics/";
 	$picFiles = [];
 	$picFileTypes = ["jpg", "jpeg", "png", "gif"];
+	
+
 	
 	$allFiles = array_slice(scandir($picDir), 2);
 	foreach ($allFiles as $file) {
@@ -45,8 +66,8 @@
 </head>
 <body>
 	<h1>
-	<?php
-		echo $myName ." " .$myFamilyName;
+	<?php 
+		echo $signupFirstNameFromDb ." " .$signupFamilyNameFromDb;
 	?>
 	</h1>
 	<p>Tere!<p/>
