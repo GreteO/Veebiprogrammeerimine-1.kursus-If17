@@ -15,37 +15,12 @@ require("functions.php");
 	
 	//muutuja
 	//$notice = "";
-	
-	$database = "if17_ojavgret";
-	//muutujad
-	$signupFirstNameFromDb = ""; 
-	$signupFamilyNameFromDb = ""; 
-	$emailFromDb = ""; 
-	$signupBirthDateFromDb = ""; 
-	$signupGenderFromDb = "";
-	$row = ""; 
-	
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		if ($stmt = $mysqli->query("SELECT firstname, lastname, email, birthday, gender(WHERE 1= mees AND 2= naine) FROM vplogimine")){
-		    $stmt -> execute();
-		    $stmt->bind_result($signupFirstNameFromDb, $signupFamilyNameFromDb, $emailFromDb, $signupBirthDateFromDb, $signupGenderFromDb);
-		
-		    while ($row = mysqli_fetch_array($stmt)){
-		        $signupFirstNameFromDb = $row["firstname"]; 
-		        $signupFamilyNameFromDb = $row["lastname"]; 
-		        $emailFromDb = $row["email"]; 
-		        $signupBirthDateFromDb = $row["birthday"]; 
-		        $signupGenderFromDb = $row["gender"]; 
-		        
-		    }
-		
-		    $stmt->close();
-		}
-		$mysqli->close();
-		//return $notice;
-	//}
-	
-	
+	$allUsers = "";
+	$signupFirstName = ""; 
+	$signupFamilyName = ""; 
+	$signupEmail = ""; 
+	$signupBirthDate = ""; 
+	$gender = "";
 	
 		
 	//muutujad
@@ -72,31 +47,11 @@ require("functions.php");
 	<p>See leht on loodud õppetöö raames ning ei sisalda tõsiseltvõetavat sisu.<p/>
 	<p><a href="?logout=1">Logi välja</a></p>
 	<p><a href="main.php">Pealeht</a></p>
+	<h2>Kõik registreeritud kasutajad</h2>
+	<?php echo allUsersTable();?>
 	
-	<table border="1" style="border-collapse: collapse;">
-		<tr>
-			<th>Eesnimi</th>
-			<th>Perekonnanimi</th>
-			<th>E-post</th>
-			<th>Sünnipäev</th>
-			<th>Sugu</th>
-		</tr>
-		<tr>
-			<td><?php echo $signupFirstNameFromDb; ?></td>
-			<td><?php echo $signupFamilyNameFromDb; ?></td>
-			<td><?php echo $emailFromDb; ?></td>
-			<td><?php echo $signupBirthDateFromDb; ?></td>
-			<td><?php echo $signupGenderFromDb; ?></td>
-		</tr>
-		<tr>
-			<td><?php echo $signupFirstNameFromDb; ?></td>
-			<td><?php echo $signupFamilyNameFromDb; ?></td>
-			<td><?php echo $emailFromDb; ?></td>
-			<td><?php echo $signupBirthDateFromDb; ?></td>
-			<td><?php echo $signupGenderFromDb; ?></td>
-		</tr>
-		
-	</table>
+			
+
 	
 	
 </body>

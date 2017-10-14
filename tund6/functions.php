@@ -43,7 +43,7 @@
 	
 	function signUp($signupFirstName, $signupFamilyName, $signupBirthDate, $gender, $signupEmail, $signupPassword){
 		//loome andmebaasiühenduse
-		
+		$notice = "";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		//valmistame ette käsu andmebaasiserverile
 		$stmt = $mysqli->prepare("INSERT INTO vplogimine (firstname, lastname, birthday, gender, email, password) VALUES (?, ?, ?, ?, ?, ?)");
@@ -63,26 +63,38 @@
 		return $notice;
 	}
 	
-	function allUsersTable($signupFirstNameFromDb, $signupFamilyNameFromDb, $emailFromDb, $signupBirthDateFromDb, $signupGenderFromDb) {
-		$notice = "";
+	//Kasutajate tabel:
+	
+	function allUsersTable(){
+		$allUsers = "";
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 		$stmt = $mysqli->prepare("SELECT firstname, lastname, email, birthday, gender FROM vplogimine");
-		$stmt->bind_result ($signupFirstNameFromDb, $signupFamilyNameFromDb, $emailFromDb, $signupBirthDateFromDb, $signupGenderFromDb);
+		$stmt->bind_result($signupFirstName, $signupFamilyName, $signupEmail, $signupBirthDate, $gender);
 		$stmt -> execute();
+		    echo'<table border="1" style="border-collapse: collapse;">';
+			echo'<tr><th>Eesnimi</th><th>Perekonnanimi</th><th>E-post</th><th>Sünnipäev</th><th>Sugu</th></tr>';
+		
 		while ($stmt ->fetch()){
-			$signupFirstNameFromDb; 
-		    $signupFamilyNameFromDb; 
-		    $emailFromDb; 
-		    $signupBirthDateFromDb; 
-		    $signupGenderFromDb; 
+		   
+			echo'<tr>';
+		        echo'<td>' . $signupFirstName . '</td>';
+		        echo'<td>' . $signupFamilyName . '</td>'; 
+		        echo'<td>' . $signupEmail.'</td>';
+		        echo'<td>' . $signupBirthDate . '</td>';
+		        echo'<td>';                             //$gender . '</td>';
+		            if ($gender ==1){
+		                echo "Mees";
+		            }else{
+		                echo "Naine";
+		            }
+		        echo '</td>';
+		    echo'</tr>'; 
 		        
 		}
-		
 		$stmt->close();
 		$mysqli->close();
-		return $notice;
-		
-		
+		return $allUsers;
+			
 	}
 	
 	//Hea mõtte salvestamise funktsioon

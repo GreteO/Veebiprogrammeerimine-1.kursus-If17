@@ -33,42 +33,10 @@ $ideas = "";
 		$ideas = readAllIdeas();
 	
 	
-	//muutuja
-	//$notice = "";
-	
-	/*$database = "if17_ojavgret";
+
 	//muutujad
-	$signupFirstNameFromDb = ""; 
-	$signupFamilyNameFromDb = ""; 
-	$emailFromDb = ""; 
-	$signupBirthDateFromDb = ""; 
-	$signupGenderFromDb = "";
-	$row = ""; 
-	
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		if ($stmt = $mysqli->query("SELECT firstname, lastname, email, birthday, gender(WHERE 1= mees AND 2= naine) FROM vplogimine")){
-		    $stmt -> execute();
-		    $stmt->bind_result($signupFirstNameFromDb, $signupFamilyNameFromDb, $emailFromDb, $signupBirthDateFromDb, $signupGenderFromDb);
-		
-		    while ($row = mysqli_fetch_array($stmt)){
-		        $signupFirstNameFromDb = $row["firstname"]; 
-		        $signupFamilyNameFromDb = $row["lastname"]; 
-		        $emailFromDb = $row["email"]; 
-		        $signupBirthDateFromDb = $row["birthday"]; 
-		        $signupGenderFromDb = $row["gender"]; 
-		        
-		    }
-		
-		    $stmt->close();
-		}
-		$mysqli->close();
-		//return $notice;
-	//}
-		
-	*/
-	//muutujad
-	$myName = "Grete";
-	$myFamilyName = "Ojavere";
+	//$myName = "Grete";
+	//$myFamilyName = "Ojavere";
 	
 	
 ?>
@@ -80,11 +48,7 @@ $ideas = "";
 	<title>Grete Ojavere veebiprogrammeerimine</title>
 </head>
 <body>
-	<h1>
-	<?php
-		echo $myName ." " .$myFamilyName;
-	?>
-	</h1>
+	
 	<p>Tere! <p/>
 	<p>Olete jõudnud isiklikule veebilehele.<p/>
 	<p>See leht on loodud õppetöö raames ning ei sisalda tõsiseltvõetavat sisu.<p/>
