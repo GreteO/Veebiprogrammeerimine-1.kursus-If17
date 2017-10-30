@@ -15,6 +15,7 @@ require("functions.php");
 	
 	//muutuja
 	//$notice = "";
+	$userTable = "";
 	
 	$database = "if17_ojavgret";
 	//muutujad
@@ -23,30 +24,19 @@ require("functions.php");
 	$emailFromDb = ""; 
 	$signupBirthDateFromDb = ""; 
 	$signupGenderFromDb = "";
-	$row = ""; 
+	//$row = ""; 
 	
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		if ($stmt = $mysqli->query("SELECT firstname, lastname, email, birthday, gender(WHERE 1= mees AND 2= naine) FROM vplogimine")){
-		    $stmt -> execute();
-		    $stmt->bind_result($signupFirstNameFromDb, $signupFamilyNameFromDb, $emailFromDb, $signupBirthDateFromDb, $signupGenderFromDb);
-		
-		    while ($row = mysqli_fetch_array($stmt)){
-		        $signupFirstNameFromDb = $row["firstname"]; 
-		        $signupFamilyNameFromDb = $row["lastname"]; 
-		        $emailFromDb = $row["email"]; 
-		        $signupBirthDateFromDb = $row["birthday"]; 
-		        $signupGenderFromDb = $row["gender"]; 
-		        
-		    }
-		
-		    $stmt->close();
-		}
-		$mysqli->close();
+	
+	$userTable = allUsersTable();
+	
+
 		//return $notice;
 	//}
 	
-	
-	
+	/*while($stmt->fetch()){
+			$ideas .= '<p style="background-color: ' .$color .'">' .$idea ."</p> \n";
+		}
+	*/
 		
 	//muutujad
 	$myName = "Grete";
