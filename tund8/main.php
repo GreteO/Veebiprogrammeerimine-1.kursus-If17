@@ -76,6 +76,7 @@ $database = "if17_ojavgret";
 	<p><a href="?logout=1">Logi välja</a></p>
 	<p><a href="usersInfo.php">Info kasutajate kohta</a></p>
 	<p><a href="usersideas.php">Kasutaja head mõtted</a></p>
+	<p><a href="picsupload.php">Piltide üleslaadimine</a></p>
 	<img src="<?php echo $picDir .$picFile; ?>" alt="Tallinna ülikool">
 	
 </body>
