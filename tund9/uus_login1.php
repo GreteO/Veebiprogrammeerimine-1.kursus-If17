@@ -191,6 +191,25 @@
 	//värskeim mõte
 	$lastIdea = readLastIdea();
 	
+	//Thumbnails
+	$picDir = "../../thumbs/";
+	$picFiles = [];
+	$picFileTypes = ["jpg"];
+	
+	$allFiles = array_slice(scandir($picDir), 2);
+	foreach ($allFiles as $file) {
+		$fileType = pathinfo($file, PATHINFO_EXTENSION);
+		if (in_array ($fileType, $picFileTypes) == true){
+			array_push($picFiles, $file);
+		}
+	}//foreach lõppeb
+
+	$picFileCount = count($picFiles);
+	$picNumber = mt_rand(0, $picFileCount -1);
+	$picFile = $picFiles[$picNumber];
+	
+	
+	
 ?>
 <!DOCTYPE html>
 <html lang="et">
@@ -201,6 +220,9 @@
 <body>
 	<h1>Heade mõtete veeb</h1>
 	<p>Värskeim hea mõte: <span><?php echo $lastIdea; ?></span></p>
+	<br>
+	<h2>Kasutajate pildid</h2>
+	<img src="<?php echo $picDir .$picFile; ?>" alt="Thumbnails">
 	<h2>Logi sisse!</h2>
 	<p>Siin harjutame sisselogimise funktsionaalsust.</p>
 	
