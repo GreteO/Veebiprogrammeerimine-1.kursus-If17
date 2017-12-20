@@ -1,6 +1,8 @@
 <?php 
 	require("../../../config.php");
 	$database = "if17_ojavgret";
+    $target_dir = "../../pics/";
+    $thumbs_dir = "../../thumbs/";
 	
 	//alustame sessiooni
 	session_start();
@@ -151,6 +153,26 @@ function test_input($data){
 		$data = stripslashes ($data); //eemaldasb kaldkriipsud"\"
 		$data = htmlspecialchars ($data);
 		return $data;
+	}
+	
+	function addPhotoData($filename, $thumbnail, $visibility){
+		//echo $GLOBALS["serverHost"];
+		$notice = "";
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("INSERT INTO vpphotos (userid, filename, thumbnail, visibility) VALUES (?, ?, ?, ?)");
+		echo $mysqli->error;
+		$stmt->bind_param("issi", $_SESSION["userId"], $filename, $thumbnail, $visibility);
+		//$stmt->execute();
+		if ($stmt->execute()){
+		    $notice = "Foto andmete lisamine andmebaasi õnnestus";
+			//$GLOBALS["notice"] .= "Foto andmete lisamine andmebaasi õnnestus! ";
+		} else {
+		    $notice = "Foto andmete lisamine andmebaasi ebaõnnestus";
+			//$GLOBALS["notice"] .= "Foto andmete lisamine andmebaasi ebaõnnestus! ";
+		}
+		$stmt->close();
+		$mysqli->close();
+		return $notice;
 	}
 /*	//UUS FUNKTSIOON
 

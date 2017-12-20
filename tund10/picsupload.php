@@ -31,10 +31,12 @@ $maxHeight = 400;
 $marginVer = 10;
 $marginHor = 10; 
 
-$thumb_width = 100;
+
 $target_dir = "../../pics/";
-$thumb_dir = "../../thumbs/";
+$thumbs_dir = "../../thumbs/";
 $thumb_file = "";
+$thumbsize = 100;
+
 
 
 //Kas vajutati üleslaadimise nuppu (Kontrollib, kas pilt on päris või mitte)
@@ -51,6 +53,7 @@ if(isset($_POST["submit"])) {
             //$target_file = $target_dir . pathinfo(basename($_FILES["fileToUpload"]["name"]))["filename"] ."_" . $timestamp ."." .$imageFileType;
             //$target_file = $target_dir . "hmv_" . $timestamp ."." .$imageFileType;
 			$target_file = "hmv_" .$timestamp ."." .$imageFileType;
+			$thumb_file = "hmv_" .$timestamp .".jpg";
             //Thumbnailid
             /*$imageFileType = strtolower(pathinfo(basename($_FILES["fileToUpload"]["name"]))["extension"]);
             $timestamp = microtime(1) *10000;
@@ -105,17 +108,22 @@ if(isset($_POST["submit"])) {
 				$myPhoto->addWatermark($marginHor, $marginVer);
 				//$myPhoto->addTextWatermark($myPhoto->exifToImage);
 				$myPhoto->addTextWatermark("Heade mõtete veeb");
-				$notice = $myPhoto->savePhoto($target_dir, $target_file);
-				if($notice =="true"){
+				$notice .= $myPhoto->savePhoto($target_dir, $target_file);
+				$notice .= $myPhoto->createThumbnail($thumbs_dir, $thumb_file, $thumbsize, $thumbsize);
+				/*if($notice =="true"){
 					$notice = "Pilt laeti üles";
 				} else {
 					$notice = "Pilti ei laetud üles";
-				}
+				}*/
 				//$myPhoto->saveOriginal(kataloog, failinimi);
 				$myPhoto->clearImages();
 				unset($myPhoto); //unustatakse kõik mis klassis töötasid
-				
-			
+			    
+			if(isset($_POST["submit"])){
+			    if(isset($_POST["visibility"]) and !empty($_POST["visibility"])){
+			    $notice = addPhotoData($target_file, $thumb_file, $_POST["visibility"]);
+			    }
+			}
                 //Muudame suurust
                 //lähtudes failitüübist, loome pildiobjekti
                 /*if($imageFileType == "jpg" or $imageFileType == "jpeg"){
@@ -233,6 +241,7 @@ if(isset($_POST["submit"])) {
                 imagedestroy($myImage);
 				imagedestroy($stamp);
                 imagedestroy($thumbs);*/
+
             }
         } else {
             $notice = "Palun valige kõigepealt pildifail";
@@ -311,17 +320,17 @@ require("header.php");
     <label>Vali pilt: </lable>
     <input type="file" name="fileToUpload" id="fileToUpload">
     <br>
-    <input type="submit" value="Lae üles" name="submit" id="photoSubmit"><span id="fileSizeError"></span>
-    <span><?php echo $notice;?></span>
-    <br>
-    <input type="radio" name="see_pic" value="1" > 
+    <input type="radio" name="visibility" value="1" > 
     <label>Avalik</label>
     <br>
-    <input type="radio" name="see_pic" value="2" > 
+    <input type="radio" name="visibility" value="2" > 
     <label>Sisselogitud kasutajatele</label>
     <br>
-    <input type="radio" name="see_pic" value="3" checked="checked"/> 
+    <input type="radio" name="visibility" value="3" checked="checked"/> 
     <label>Ainult omanikule</label>
+    <br>
+    <input type="submit" value="Lae üles" name="submit" id="photoSubmit"><span id="fileSizeError"></span>
+    <span><?php echo $notice;?></span>
 </form>
 
 <?php

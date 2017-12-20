@@ -46,15 +46,15 @@
                 $sizeRatio = $imageHeight / $height;
             }
             //Funktsioon piltidest erinevate suuruste saamiseks
-            $this->myImage = $this->resize_image($this->myTempImage, $imageWidth, $imageHeight, round($imageWidth/$sizeRatio), round($imageHeight/$sizeRatio));	
+            $this->myImage = $this->resize_image($this->myTempImage, $imageWidth, $imageHeight, 0, 0, round($imageWidth/$sizeRatio), round($imageHeight/$sizeRatio));	
 		}
-		private function resize_image($image, $origW, $origH, $w, $h){
+		private function resize_image($image, $origW, $origH, $origX, $origY, $w, $h){
 			$dst = imagecreatetruecolor($w, $h);
 			//Säilitan png jaoks läbipaistvuse
 			imagesavealpha($dst, true); //säilitab läbipaistvuseta
 			$transColor = imagecolorallocatealpha($dst, 0, 0, 0, 127);
 			imageFill($dst, 0, 0, $transColor);
-			imagecopyresampled($dst, $image, 0, 0, 0, 0, $w, $h, $origW, $origH);
+			imagecopyresampled($dst, $image, 0, 0, $origX, $origY, $w, $h, $origW, $origH);
 			return $dst;
 		}
 		
@@ -132,8 +132,36 @@
             }
 		}
 		
+		//THUMBNAILS
+		public function createThumbnail($directory, $filename, $width, $height){
+			$imageWidth = imagesx($this->myTempImage);
+			$imageHeight = imagesy($this->myTempImage);
+			
+			$sizeRatio = 1;
+			//arvutan suuruse jagaja ning teen kindlaks, kust tuleb ruudu kujuliseks kärpida
+			if($imageWidth > $imageHeight){
+				$sizeRatio = $imageWidth / $width;
+				$origX = round(($imageWidth - $imageHeight) / 2);
+				$origY = 0;
+				$cutSize = $imageHeight;
+			} else {
+				$sizeRatio = $imageHeight / $height;
+				$origX = 0;
+				$origY = round(($imageHeight - $imageWidth) / 2);
+				$cutSize = $imageWidth;
+			}
+			
+			//pilt, soovitud lõigatav laius, lõigatav kõrgus, lõike x, lõike y, uus laius, uus kõrgus
+			$myThumbnail = $this->resize_image($this->myTempImage, $cutSize, $cutSize, $origX, $origY, $width, $height);
+			$target_file = $directory .$filename;
+			//Thumbnail on igal juhul jpg
+			if(imagejpeg($myThumbnail, $target_file, 90)){
+				$notice = "Pisipildi salvestamine õnnestus! ";
+			} else {
+				$notice = "Pisipildi salvestamine ebaõnnestus! ";
+			}
+		}
 		
-		//Thumbnailile uus funkts:
 		
 	}//class'i lõpp
 
